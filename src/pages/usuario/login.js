@@ -39,10 +39,11 @@ class Login extends Component {
 		try {
 			this.setState(
 				{
-					email: await AsyncStorage.getItem("UsuarioEmailSpMedGroup"),
-					senha: await AsyncStorage.getItem("UsuarioSenhaSpMedGroup")
+					email: await AsyncStorage.getItem("EmailUsuarioSpMedGroup"),
+					senha: await AsyncStorage.getItem("SenhaUsuarioSpMedGroup")
 				}
 			)
+			this._realizarLogin();
 		} catch {
 			this.setState({
 				email: "",
@@ -52,11 +53,13 @@ class Login extends Component {
 	}
 
 	_validarDados = () => {
-		if (this.state.senha == null || this.state.senha.length === 0) {
-			this.setState({ erro: "E email é obrigatorio" })
+		const email = this.state.email
+		if (email == null || email.trim().length === 0) {
+			this.setState({ erro: "O email é obrigatorio" })
 			return false
 		}
-		if (this.state.senha == null || this.state.senha.length === 0) {
+		const senha = this.state.senha
+		if (senha == null || senha.trim().length === 0) {
 			this.setState({ erro: "A senha é obrigatoria" })
 			return false
 		}
@@ -64,7 +67,6 @@ class Login extends Component {
 	}
 
 	_realizarLogin = async () => {
-		this.props.navigation.navigate("Consultas")
 		if (this._validarDados()) {
 			this.setState({ carregando: true })
 			await ApiRequest("Usuario/Login")
@@ -79,11 +81,11 @@ class Login extends Component {
 								resultado.json().then(
 									resposta => {
 										AsyncStorage.multiSet(
-											{
-												"TokenSpMedGroup": resposta.token,
-												"EmailUsuarioSpMedGroup": this.state.email,
-												"SenhaUsuarioSpMedGroup": this.state.senha
-											}
+											[
+												["TokenSpMedGroup",resposta.token],
+												["EmailUsuarioSpMedGroup", this.state.email],
+												["SenhaUsuarioSpMedGroup", this.state.senha]
+											]
 										)
 										this.props.navigation.navigate("Consultas")
 									}
@@ -156,20 +158,19 @@ const styles = StyleSheet.create(
 		},
 		overlay: {
 			...StyleSheet.absoluteFill,
-			backgroundColor: "rgba(0,0,0,0.5)"
+			backgroundColor: '#81df99'//"rgba(0,0,0,0.5)"
 		},
 		loginForm: {
 			backgroundColor: 'white',
 			padding: 20,
-			width:"60%",
-			height:"60%"
+			width:"60%"
 		},
 		loginIcon:{
 			resizeMode:'contain',
 			width:"60%",
-			height:"40%",
+			height:"30%",
 			alignSelf:'center',
-			marginBottom:15
+			marginVertical:15
 		}
 	}
 );

@@ -6,9 +6,14 @@ class ListarConsulta extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			consultas:[]
+			consulta:[]
 		}
 	}
+	
+	componentDidMount(){
+		
+	}
+
 	render() {
 		return (
 			<Text>Listar Consulta</Text>

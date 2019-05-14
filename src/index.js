@@ -13,12 +13,31 @@ const authStack = createStackNavigator(
 	}
 )
 
-const topNavigator = createMaterialTopTabNavigator(
+const topNavigator = createStackNavigator(
 	{
-		"Consultas":ListarConsultas,
-		"Consulta":ListarConsulta
+		"Consultas":{
+			screen:ListarConsultas,
+			path:'Usuario/Consultas',
+			navigationOptions:{
+				title: 'Minhas Consultas',
+				headerStyle:{
+					backgroundColor:'#81df99'
+				},
+				headerTitleStyle: {
+					color: 'white'
+				}
+			},
+
+		},
+		"Consulta":{
+			screen:ListarConsulta,
+			path:'Usuario/Consulta/:idConsulta',
+			navigationOptions: ({ navigation }) => ({
+				title: `$Consulta #${navigation.state.params.idConsulta}'`,
+			}),
+		}
 	},{
-		initialRouteName:"Consultas"
+		initialRouteName:"Consultas"	
 	}
 
 );

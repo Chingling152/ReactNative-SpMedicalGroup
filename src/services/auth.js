@@ -16,4 +16,8 @@ export const TokenValido = async () =>
         return false
     }
 
-    );
+);
+
+export const UsuarioLogado = async () =>{
+    return await AsyncStorage.multiGet(['EmailUsuarioSpMedGroup','SenhaUsuarioSpMedGroup']);
+}
