@@ -11,7 +11,9 @@ class ListarConsulta extends Component {
 	}
 	
 	componentDidMount(){
-		
+		const { navigation } = this.props;
+ 
+		this.setState({consulta:navigation.getParam('consulta', null)})
 	}
 
 	render() {
