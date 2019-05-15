@@ -1,8 +1,14 @@
-import { createAppContainer, createSwitchNavigator, createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { 
+	createAppContainer, 
+	createSwitchNavigator, 
+	createStackNavigator, 
+	TouchableOpacity ,
+	Text 
+} from 'react-navigation';
 import Login from './pages/usuario/login';
 import ListarConsulta from './pages/consulta/listarConsulta';
 import ListarConsultas from './pages/consulta/listarConsultas';
-
+import React, { Component } from 'react';
 
 const authStack = createStackNavigator(
 	{
@@ -37,7 +43,7 @@ const topNavigator = createStackNavigator(
 			}),
 		}
 	},{
-		initialRouteName:"Consultas"	
+		initialRouteName:"Consultas"
 	}
 
 );

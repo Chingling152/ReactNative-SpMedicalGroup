@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { TokenValido } from '../../services/auth';
+import { TokenValido, UsuarioLogado } from '../../services/auth';
 import AsyncStorage from '@react-native-community/async-storage'
 import { ApiRequest } from '../../services/apiServices';
 import { DefaultStyleSheet } from '../../assets/styles/padrao';
-
 
 class Login extends Component {
 
@@ -24,6 +23,7 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
+		this.setState({ carregando: true })
 		TokenValido().then(
 			valido => {
 				if (valido) {
@@ -36,20 +36,19 @@ class Login extends Component {
 	}
 
 	_buscarDados = async () => {
-		try {
-			this.setState(
-				{
-					email: await AsyncStorage.getItem("EmailUsuarioSpMedGroup"),
-					senha: await AsyncStorage.getItem("SenhaUsuarioSpMedGroup")
+		UsuarioLogado().then(
+			usuario=>{
+				const email = usuario.email
+				const senha = usuario.senha
+				if(email !== null && senha !== null){
+					this.setState({
+						email,
+						senha
+					});
+					this._realizarLogin()
 				}
-			)
-			this._realizarLogin();
-		} catch {
-			this.setState({
-				email: "",
-				senha: ""
-			});
-		}
+			}
+		)
 	}
 
 	_validarDados = () => {
@@ -71,7 +70,7 @@ class Login extends Component {
 			this.setState({ carregando: true })
 			await ApiRequest("Usuario/Login")
 				.Cadastrar({
-					email: this.state.email,
+					email: this.state.email.trim(),
 					senha: this.state.senha
 				})
 				.then(
@@ -91,21 +90,21 @@ class Login extends Component {
 									}
 								);
 								break;
-							case 400:
+							case 404:
 								resultado.json().then(
 									resposta => {
-										this.setState({ erro: resposta.erro })
+										this.setState({ erro: resposta })
 									}
 								);
 								break;
 							default:
 								break;
 						}
-						this.setState({ carregando: false })
 					}
-				)
-				.catch(erro => console.warn(erro))
-		}
+					)
+					.catch(erro => console.warn(erro))
+				}
+				this.setState({ carregando: false })
 	}
 
 	render() {
@@ -168,7 +167,7 @@ const styles = StyleSheet.create(
 		loginIcon:{
 			resizeMode:'contain',
 			width:"60%",
-			height:"30%",
+			height:"40%",
 			alignSelf:'center',
 			marginVertical:15
 		}

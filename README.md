@@ -24,3 +24,4 @@
 ## Bibliografia  
 
 - [Passando parametros para rotas](https://reactnavigation.org/docs/en/params.html)
+- [AsyncStorage - MultiGet](https://facebook.github.io/react-native/docs/asyncstorage#multiget)

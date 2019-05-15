@@ -1,5 +1,5 @@
 export const ApiRequest = (endpoint) =>{
-    const baseURL = "http://192.168.56.1:5000/api/v1/"
+    const baseURL = "http://192.168.15.10:5000/api/v1/"
     return {
         Listar(){
             return fetch(baseURL + endpoint,
