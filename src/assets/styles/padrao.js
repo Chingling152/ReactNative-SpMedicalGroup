@@ -2,8 +2,18 @@ import {StyleSheet} from 'react-native';
 
 export const DefaultStyleSheet = StyleSheet.create(
     {
-        mensagemErro:{
-            color:'red'
+        errorMessage:{
+            color:'red',
+            fontWeight:'600',
+            textAlign:'center',
+            marginVertical:10
+        },
+        shadowContent:{
+            shadowColor: "rgba(0,0,0, 0.4)",
+            shadowOffset: { height: 10, width: 10 },
+            shadowOpacity: 1, 
+            shadowRadius: 1,
+            elevation: 8,
         }
     }
 );

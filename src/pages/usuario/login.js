@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import {
+	StyleSheet,
+	Text, View,
+	ActivityIndicator,
+	TouchableOpacity,
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { TokenValido, UsuarioLogado } from '../../services/auth';
 import AsyncStorage from '@react-native-community/async-storage'
@@ -23,7 +28,6 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ carregando: true })
 		TokenValido().then(
 			valido => {
 				if (valido) {
@@ -37,10 +41,10 @@ class Login extends Component {
 
 	_buscarDados = async () => {
 		UsuarioLogado().then(
-			usuario=>{
+			usuario => {
 				const email = usuario.email
 				const senha = usuario.senha
-				if(email !== null && senha !== null){
+				if (email !== null && senha !== null) {
 					this.setState({
 						email,
 						senha
@@ -66,6 +70,7 @@ class Login extends Component {
 	}
 
 	_realizarLogin = async () => {
+		this.setState({ erro: "" })
 		if (this._validarDados()) {
 			this.setState({ carregando: true })
 			await ApiRequest("Usuario/Login")
@@ -81,7 +86,7 @@ class Login extends Component {
 									resposta => {
 										AsyncStorage.multiSet(
 											[
-												["TokenSpMedGroup",resposta.token],
+												["TokenSpMedGroup", resposta.token],
 												["EmailUsuarioSpMedGroup", this.state.email],
 												["SenhaUsuarioSpMedGroup", this.state.senha]
 											]
@@ -101,46 +106,59 @@ class Login extends Component {
 								break;
 						}
 					}
-					)
-					.catch(erro => console.warn(erro))
-				}
-				this.setState({ carregando: false })
+				)
+				.catch(erro => {
+					console.warn(erro)
+					this.setState({ erro: "Ocorreu um erro inesperado\nPor favor contate o administrador" })
+				})
+			this.setState({ carregando: false })
+		}
 	}
 
 	render() {
+		const carregador = 
+		this.state.carregando?
+		<ActivityIndicator style={{}} size="large" color="#000000" animating={true}/>:
+		null;
 		return (
-			<ImageBackground
-				source={require('../../assets/images/login-background.jpg')}
-				style={styles.mainContent}
-			>
-				<View style={styles.overlay} />
+			<View style={styles.mainContent}>
+				<Text style={styles.loginTitle}>Login</Text>
 				<View style={styles.loginForm}>
-					<Image 
-						source={require("../../assets/images/icon-login.png")}
-						style={styles.loginIcon}
-					/>
-					<Text>Login</Text>
-					<View>
+					<View style={styles.loginInputView}>
+						<Text style={styles.loginLabelInput}>Digite seu email:</Text>
 						<TextInput
+							style={styles.loginInput}
 							placeholder="seuemail@email.com"
 							onChangeText={email => this.setState({ email })}
 							textContentType='emailAddress'
-						/>
+							/>
+					</View>
+					<View style={styles.loginInputView}>
+						<Text style={styles.loginLabelInput}>Digite sua senha:</Text>
 						<TextInput
+							style={styles.loginInput}
 							placeholder="suasenha"
 							onChangeText={senha => this.setState({ senha })}
 							textContentType='password'
 							password="true"
+							secureTextEntry={true} 
 						/>
-						<TouchableOpacity
-							onPress={this._realizarLogin}
-						>
-							<Text>Login</Text>
-						</TouchableOpacity>
 					</View>
-					<Text style={DefaultStyleSheet.mensagemErro}>{this.state.erro}</Text>
+					<TouchableOpacity
+						onPress={this._realizarLogin}
+						style={styles.loginSubmit}
+						activeOpacity={0.5}
+					>
+					<Text style={styles.loginSubmitText}>Login</Text>
+					</TouchableOpacity>
+					{carregador}
+					<Text style={DefaultStyleSheet.errorMessage}>{this.state.erro}</Text>
 				</View>
-			</ImageBackground>
+				{/* <Image
+					source={require("../../assets/images/icon-login.png")}
+					style={styles.loginIcon}
+				/> */}
+			</View>
 		);
 	}
 }
@@ -153,23 +171,60 @@ const styles = StyleSheet.create(
 			width: "100%",
 			height: "100%",
 			alignContent: "center",
-			alignItems: "center"
-		},
-		overlay: {
-			...StyleSheet.absoluteFill,
-			backgroundColor: '#81df99'//"rgba(0,0,0,0.5)"
+			alignItems: "center",
+			backgroundColor: '#81df99',
 		},
 		loginForm: {
-			backgroundColor: 'white',
-			padding: 20,
-			width:"60%"
+			width: '100%',
+			alignItems: 'center',
 		},
-		loginIcon:{
-			resizeMode:'contain',
-			width:"60%",
-			height:"40%",
-			alignSelf:'center',
-			marginVertical:15
+		loginIcon: {
+			resizeMode: 'contain',
+			width: '100%',
+			height: '100%',
+			marginVertical: 15,
+			top: 100
+		},
+		loginTitle: {
+			letterSpacing: 5,
+			fontSize: 28,
+			fontWeight: '600',
+			marginVertical: 15
+		},
+		loginInputView:{
+			width:'70%',
+			marginVertical: 5
+		},
+		loginLabelInput:{
+			fontSize: 16,
+			fontWeight: '600',
+		},
+		loginInput: {
+			borderRadius: 14,
+			borderWidth: 1,
+			borderColor: 'white',
+			backgroundColor: 'white',
+			paddingVertical: 5,
+			paddingHorizontal: 5,
+			marginVertical: 15,
+			...DefaultStyleSheet.shadowContent,
+		},
+		loginSubmit: {
+			width: '45%',
+			marginVertical: 10,
+			borderWidth: 1,
+			borderColor: '#8beda4',
+			backgroundColor: '#8beda4',
+			padding: 10,
+			borderRadius: 14,
+			alignContent: 'center',
+			alignItems: 'center',
+			...DefaultStyleSheet.shadowContent
+		},
+		loginSubmitText: {
+			color: 'white',
+			letterSpacing: 3,
+			fontSize: 20,
 		}
 	}
 );
