@@ -1,14 +1,11 @@
 import { 
 	createAppContainer, 
 	createSwitchNavigator, 
-	createStackNavigator, 
-	TouchableOpacity ,
-	Text 
+	createStackNavigator
 } from 'react-navigation';
 import Login from './pages/usuario/login';
 import ListarConsulta from './pages/consulta/listarConsulta';
 import ListarConsultas from './pages/consulta/listarConsultas';
-import React, { Component } from 'react';
 
 const authStack = createStackNavigator(
 	{

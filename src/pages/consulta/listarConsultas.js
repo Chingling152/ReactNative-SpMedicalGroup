@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Alert} from 'react-native';
-import { TokenValido, UsuarioLogado, TokenUsuario } from '../../services/auth';
+import { TokenValido, UsuarioLogado } from '../../services/auth';
 import { ApiRequest } from '../../services/apiServices';
 import jwt from 'jwt-decode'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -15,32 +15,47 @@ class ListarConsultas extends Component {
 			carregando: true,
 			usuarioLogado: []
 		}
+		this.verConsultaRef = React.createRef();
+		this._listarConsultas = this._listarConsultas.bind(this);
 	}
 
-	static navigationOptions = {
-		headerRight: (
-			<TouchableOpacity style={{ marginRight: 20 }} onPress={() => {
-				return Alert.alert(
-					'Requer confirmação', 'Você tem certeza que quer sair do seu usuario?'
-					, [
-						{
-							text: 'Sim', onPress: async () => {
-								await AsyncStorage.multiRemove(['TokenSpMedGroup','EmailUsuarioSpMedGroup','SenhaUsuarioSpMedGroup'])
-							}
-						},
-						{ text: 'Não' }
-					]
-				);
-			}}>
+	static navigationOptions = ({navigation})=>{
+		let {params = {}} = navigation.state; 	
+		const headerRight = (
+			<TouchableOpacity style={{ marginRight: 20 }} onPress={params.logout}>
 				<Text style={{ fontWeight: '600', color: 'white', fontSize: 16 }}>Logout</Text>
 			</TouchableOpacity>
-		),
+			)
+
+			return {headerRight}
 	};
 
 	componentDidMount() {
 		this._verificarDados();
+		this.props.navigation.setParams({logout:this._logoutUsuario});
+		this.verConsultaRef.current = this._verConsulta;
 	}
 
+	_logoutUsuario=() =>{
+
+		Alert.alert(
+			'Requer confirmação', 'Você tem certeza que quer sair do seu usuario?'
+			, [
+				{
+					text: 'Sim', onPress: async() =>{
+						await AsyncStorage.multiRemove(['TokenSpMedGroup','EmailUsuarioSpMedGroup','SenhaUsuarioSpMedGroup'])
+						this.props.navigation.navigate('Login');
+					}
+				},
+				{ text: 'Não' }
+			]
+		);
+	}
+
+	_verConsulta = (idItem) =>{
+
+	}
+	
 	_verificarDados = async () => {
 		await TokenValido().then(
 			valido => {
@@ -139,14 +154,18 @@ class ListarConsultas extends Component {
 	}
 
 	render() {
+		//(<Text style={styles.aviso}>Você não possui nenhuma consulta</Text>);
 		return (
 			<View>
 				<ActivityIndicator size="large" color="#000000" animating={this.state.carregando} style={styles.loading} />
 				<View>
 					<FlatList
 						data={this.state.consultas}
-						keyExtractor={item => item.id}
-						renderItem={(consulta) => <Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} />}
+						keyExtractor={item => item.id.toString()}
+						renderItem={
+							(consulta) => 
+							<Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} listar={() =>this.verConsultaRef(consulta.id)}/>
+						}
 					>
 					</FlatList>
 				</View>
@@ -160,6 +179,13 @@ const styles = StyleSheet.create(
 	{
 		loading: {
 			position: 'absolute', left: '45%'
+		},
+		aviso:{
+			marginVertical:10,
+			fontSize:16,
+			fontWeight:'400',
+			textAlign:'center',
+
 		}
 	}
 )

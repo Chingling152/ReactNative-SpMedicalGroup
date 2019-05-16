@@ -18,7 +18,7 @@ class ListarConsulta extends Component {
 
 	render() {
 		return (
-			<Text>Listar Consulta</Text>
+			<Text>Ver Consulta</Text>
 		);
 	}
 }

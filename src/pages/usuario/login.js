@@ -108,7 +108,7 @@ class Login extends Component {
 					}
 				)
 				.catch(erro => {
-					console.warn(erro)
+					//console.warn(erro)
 					this.setState({ erro: "Ocorreu um erro inesperado\nPor favor contate o administrador" })
 				})
 			this.setState({ carregando: false })
@@ -118,7 +118,7 @@ class Login extends Component {
 	render() {
 		const carregador = 
 		this.state.carregando?
-		<ActivityIndicator style={{}} size="large" color="#000000" animating={true}/>:
+		<ActivityIndicator size="large" color="#FFFFFF" animating={true}/>:
 		null;
 		return (
 			<View style={styles.mainContent}>
