@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Alert} from 'react-native';
+
+import { 
+	StyleSheet, 
+	Text, 
+	View, 
+	ActivityIndicator, 
+	TouchableOpacity, 
+	Alert
+} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage'
+
 import { TokenValido, UsuarioLogado } from '../../services/auth';
 import { ApiRequest } from '../../services/apiServices';
-import { CustomConverter } from '../../services/converter';
-import jwt from 'jwt-decode'
-import AsyncStorage from '@react-native-community/async-storage'
-import { FlatList } from 'react-native-gesture-handler';
+
 import Consulta from '../../componentes/Consultas/consulta';
+
+import jwt from 'jwt-decode'
 
 class ListarConsultas extends Component {
 	constructor(props) {
@@ -50,10 +60,6 @@ class ListarConsultas extends Component {
 				{ text: 'Não' }
 			]
 		);
-	}
-
-	_verConsulta = (idItem) =>{
-		console.warn("10")
 	}
 	
 	_verificarDados = async () => {
@@ -154,7 +160,7 @@ class ListarConsultas extends Component {
 	}
 
 	render() {
-		//(<Text style={styles.aviso}>Você não possui nenhuma consulta</Text>);
+		const mensagem = this.state.consultas.length<1 && this.state.carregando !== null?(<Text style={styles.aviso}>Você não possui nenhuma consulta</Text>):null;
 		return (
 			<View>
 				<ActivityIndicator size="large" color="#000000" animating={this.state.carregando} style={styles.loading} />
@@ -166,8 +172,9 @@ class ListarConsultas extends Component {
 							(consulta) => 
 							<Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} navigation ={this.props.navigation}/>
 						}
-					>
+						>
 					</FlatList>
+					
 				</View>
 			</View>
 		);

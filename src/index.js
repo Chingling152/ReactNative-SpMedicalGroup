@@ -28,7 +28,8 @@ const topNavigator = createStackNavigator(
 				},
 				headerTitleStyle: {
 					color: 'white'
-				}
+				},
+				
 			},
 
 		},
@@ -37,16 +38,17 @@ const topNavigator = createStackNavigator(
 			path:'Usuario/Consulta/:consulta.idConsulta',
 			navigationOptions: ({ navigation }) => ({
 				title: `Consulta #${navigation.state.params.consulta.id}`,
+				headerTintColor: 'white',
 				headerStyle:{
 					backgroundColor:'#81df99'
 				},
 				headerTitleStyle: {
 					color: 'white'
-				},
+				}
 			}),
 		}
 	},{
-		initialRouteName:"Consultas"
+		initialRouteName:"Consultas",
 	}
 
 );

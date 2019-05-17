@@ -36,7 +36,7 @@ class Consulta extends Component {
     _informacaoPaciente = () =>{
         let cpf = CustomConverter(this.props.consulta.idPacienteNavigation.cpf).toCpf();    
         let dataNascimento = CustomConverter(this.props.consulta.idPacienteNavigation.dataNascimento).toDate();
-        let idade = parseInt(2019) - parseInt(dataNascimento.split("/")[2]);
+        let idade = CustomConverter(dataNascimento).toAge();
         return (
             <View style={styles.informacoes}>
                 <Text style={styles.labelCampo}>
@@ -54,7 +54,7 @@ class Consulta extends Component {
                 <Text style={styles.labelCampo}>
                     {'Data de Nascimento : '} 
                     <Text style={styles.valorCampo}> 
-                    {dataNascimento + ` (${idade} ${ idade >1 ? 'anos' : 'ano'})` }
+                    {dataNascimento + ` (${idade})`}
                     </Text>
                 </Text>
             </View>
