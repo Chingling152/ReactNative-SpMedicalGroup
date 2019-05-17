@@ -34,9 +34,15 @@ const topNavigator = createStackNavigator(
 		},
 		"Consulta":{
 			screen:ListarConsulta,
-			path:'Usuario/Consulta/:idConsulta',
+			path:'Usuario/Consulta/:consulta.idConsulta',
 			navigationOptions: ({ navigation }) => ({
-				title: `$Consulta #${navigation.state.params.idConsulta}'`,
+				title: `Consulta #${navigation.state.params.consulta.id}`,
+				headerStyle:{
+					backgroundColor:'#81df99'
+				},
+				headerTitleStyle: {
+					color: 'white'
+				},
 			}),
 		}
 	},{

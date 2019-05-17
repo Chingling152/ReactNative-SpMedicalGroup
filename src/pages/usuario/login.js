@@ -131,6 +131,7 @@ class Login extends Component {
 							placeholder="seuemail@email.com"
 							onChangeText={email => this.setState({ email })}
 							textContentType='emailAddress'
+							enabled={!this.state.carregando}
 							/>
 					</View>
 					<View style={styles.loginInputView}>
@@ -142,12 +143,14 @@ class Login extends Component {
 							textContentType='password'
 							password="true"
 							secureTextEntry={true} 
+							enabled={!this.state.carregando}
 						/>
 					</View>
 					<TouchableOpacity
 						onPress={this._realizarLogin}
 						style={styles.loginSubmit}
 						activeOpacity={0.5}
+						disabled={this.state.carregando}
 					>
 					<Text style={styles.loginSubmitText}>Login</Text>
 					</TouchableOpacity>

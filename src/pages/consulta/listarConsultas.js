@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Alert} from 'react-native';
 import { TokenValido, UsuarioLogado } from '../../services/auth';
 import { ApiRequest } from '../../services/apiServices';
+import { CustomConverter } from '../../services/converter';
 import jwt from 'jwt-decode'
 import AsyncStorage from '@react-native-community/async-storage'
 import { FlatList } from 'react-native-gesture-handler';
@@ -33,7 +34,6 @@ class ListarConsultas extends Component {
 	componentDidMount() {
 		this._verificarDados();
 		this.props.navigation.setParams({logout:this._logoutUsuario});
-		this.verConsultaRef.current = this._verConsulta;
 	}
 
 	_logoutUsuario=() =>{
@@ -53,7 +53,7 @@ class ListarConsultas extends Component {
 	}
 
 	_verConsulta = (idItem) =>{
-
+		console.warn("10")
 	}
 	
 	_verificarDados = async () => {
@@ -164,7 +164,7 @@ class ListarConsultas extends Component {
 						keyExtractor={item => item.id.toString()}
 						renderItem={
 							(consulta) => 
-							<Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} listar={() =>this.verConsultaRef(consulta.id)}/>
+							<Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} navigation ={this.props.navigation}/>
 						}
 					>
 					</FlatList>
