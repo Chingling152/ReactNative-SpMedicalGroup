@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View ,StatusBar} from 'react-native';
 import { CustomConverter } from '../../services/converter';
 import { ScrollView } from 'react-native-gesture-handler';
 //import console = require('console');
@@ -17,6 +17,7 @@ class ListarConsulta extends Component {
 		const medico = this.props.navigation.getParam('consulta', null).idMedicoNavigation;
 		return(
 		<View style={styles.informacoes}>
+			<StatusBar backgroundColor={'#518c60'} bar-barStyle={'dark-content'}/>
 			<Text style={styles.titulo}>Medico</Text>
 			<View>
 				<Text style={styles.subtitulo}>{'Nome : '}

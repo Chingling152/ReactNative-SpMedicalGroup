@@ -19,7 +19,6 @@ export const CustomConverter = (data) =>{
             if(data !== null){
                 let crm = data.slice(0,5) + '-' + data.slice(5,8);
                 crm = /([0-9]{5})\-([A-Z]{2})/.test(crm)? crm: 'CRM Indisponivel';
-
                 return crm;
             }   else{
                 return "CRM invalido"
@@ -27,7 +26,9 @@ export const CustomConverter = (data) =>{
         },
         toAge(){
             if(data !== null){
-                let idade = new Date(Date.now()).getFullYear() - parseInt(data.split("/")[2])
+                let agora = new Date(Date.now());
+                let idade = agora.getFullYear() - parseInt(data.split("/")[2]);
+                idade = agora.getMonth() < parseInt(data.split("/")[1])-1? idade-1 : idade;
                 return `${idade} ${ idade >1 ? 'anos' : 'ano'}`;
             }else{
                 return "Idade invalida"

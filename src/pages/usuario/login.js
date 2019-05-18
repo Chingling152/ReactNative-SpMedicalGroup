@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
 	StyleSheet,
-	Text, View,
+	Text, View, StatusBar,
 	ActivityIndicator,
 	TouchableOpacity,
 } from 'react-native';
@@ -122,6 +122,7 @@ class Login extends Component {
 		null;
 		return (
 			<View style={styles.mainContent}>
+				<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'dark-content'}/>
 				<Text style={styles.loginTitle}>Login</Text>
 				<View style={styles.loginForm}>
 					<View style={styles.loginInputView}>

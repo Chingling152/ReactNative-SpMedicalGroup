@@ -1,5 +1,5 @@
 export const ApiRequest = (endpoint) =>{
-    const baseURL = "http://192.168.56.1:5000/api/v1/"
+    const baseURL = "http://192.168.15.7:5000/api/v1/"//mude para o seu ip aqui
     return {
         Listar(){
             return fetch(baseURL + endpoint,
@@ -28,30 +28,6 @@ export const ApiRequest = (endpoint) =>{
                     method:'POST',
                     headers:{
                         "Content-Type":"application/json"
-                    },
-                    body: JSON.stringify(corpo)
-                }
-            )
-        },
-        Cadastrar(corpo,token){
-            return fetch(baseURL + endpoint,
-                {
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json',
-                        "Authorization": "Bearer " + token
-                    },
-                    body: JSON.stringify(corpo)
-                }
-            )
-        },
-        Alterar(token){
-            return fetch(baseURL + endpoint,
-                {
-                    method:'PUT',
-                    headers:{
-                        'Content-Type':'application/json',
-                        "Authorization": "Bearer " + token
                     },
                     body: JSON.stringify(corpo)
                 }

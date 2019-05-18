@@ -64,7 +64,7 @@ class Consulta extends Component {
     _informacoesConsulta = () =>{
         let descricao = this.props.consulta.descricao;
 
-        descricao = descricao != null? descricao.split(0,114)[0] + '...' : 'Sem descrição disponivel';
+        descricao = descricao != null? descricao.slice(0,114) + '...' : 'Sem descrição disponivel';
         return (
         <View style={styles.informacoes}>
                         <Text style={styles.labelCampo}>

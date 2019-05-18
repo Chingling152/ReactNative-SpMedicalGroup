@@ -6,7 +6,7 @@ import {
 	View, 
 	ActivityIndicator, 
 	TouchableOpacity, 
-	Alert
+	Alert,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage'
