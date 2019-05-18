@@ -4,15 +4,17 @@ import {
 	createStackNavigator
 } from 'react-navigation';
 import Login from './pages/usuario/login';
+import Home from './pages/home';
 import ListarConsulta from './pages/consulta/listarConsulta';
 import ListarConsultas from './pages/consulta/listarConsultas';
 
 const authStack = createStackNavigator(
 	{
-		Login:Login
+		Login:Login,
+		Home:Home
 	},
 	{
-		initialRouteName: "Login"
+		initialRouteName: "Home"
 	}
 )
 

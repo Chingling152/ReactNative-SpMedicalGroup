@@ -97,6 +97,8 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - **Dia 5**  
 	- Finalizei a listagem de uma consulta.  
 	- Iniciei a documentação colocando informações ate aqui (fui incrementando esse cronograma a cada dia)  
+	- Adicionei feedback aos usuarios que não tem consultas
+	- Adicionei uma pagina inicial para verificar dados do usuario e API  
 
 
 ## Bibliografia  

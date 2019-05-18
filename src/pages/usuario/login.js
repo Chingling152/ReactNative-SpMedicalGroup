@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { TokenValido, UsuarioLogado } from '../../services/auth';
 import AsyncStorage from '@react-native-community/async-storage'
 import { ApiRequest } from '../../services/apiServices';
 import { DefaultStyleSheet } from '../../assets/styles/padrao';
@@ -26,35 +25,6 @@ class Login extends Component {
 			carregando: false
 		};
 	}
-
-	componentDidMount() {
-		TokenValido().then(
-			valido => {
-				if (valido) {
-					this.props.navigation.navigate("Consultas")
-				} else {
-					this._buscarDados();
-				}
-			})
-
-	}
-
-	_buscarDados = async () => {
-		UsuarioLogado().then(
-			usuario => {
-				const email = usuario.email
-				const senha = usuario.senha
-				if (email !== null && senha !== null) {
-					this.setState({
-						email,
-						senha
-					});
-					this._realizarLogin()
-				}
-			}
-		)
-	}
-
 	_validarDados = () => {
 		const email = this.state.email
 		if (email == null || email.trim().length === 0) {
@@ -70,7 +40,6 @@ class Login extends Component {
 	}
 
 	_realizarLogin = async () => {
-		this.setState({ erro: "" })
 		if (this._validarDados()) {
 			this.setState({ carregando: true })
 			await ApiRequest("Usuario/Login")
@@ -132,7 +101,6 @@ class Login extends Component {
 							placeholder="seuemail@email.com"
 							onChangeText={email => this.setState({ email })}
 							textContentType='emailAddress'
-							enabled={!this.state.carregando}
 							/>
 					</View>
 					<View style={styles.loginInputView}>
@@ -144,7 +112,6 @@ class Login extends Component {
 							textContentType='password'
 							password="true"
 							secureTextEntry={true} 
-							enabled={!this.state.carregando}
 						/>
 					</View>
 					<TouchableOpacity

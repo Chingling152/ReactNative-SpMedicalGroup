@@ -24,7 +24,8 @@ class ListarConsultas extends Component {
 		this.state = {
 			consultas: [],
 			carregando: true,
-			usuarioLogado: []
+			usuarioLogado: [],
+			erro:null
 		}
 		this.verConsultaRef = React.createRef();
 		this._listarConsultas = this._listarConsultas.bind(this);
@@ -132,7 +133,11 @@ class ListarConsultas extends Component {
 						case 200:
 							resultado.json().then(
 								resposta => {
-									this.setState({ consultas: resposta })
+									if(resposta.length> 0){
+										this.setState({ consultas: resposta })
+									}else{
+										this.setState({ erro: "Você não possui nenhuma consulta" })
+									}
 								}
 							);
 							break;
@@ -152,30 +157,33 @@ class ListarConsultas extends Component {
 							);
 							break;
 						default:
+							
 							break;
 					}
 					this.setState({ carregando: false })
 				}
 			).catch(error => console.error(error))
+			
 	}
 
 	render() {
-		const mensagem = this.state.consultas.length<1 && this.state.carregando !== null?(<Text style={styles.aviso}>Você não possui nenhuma consulta</Text>):null;
+	
 		return (
-			<View>
+			<View style={{flex:1}}>
 				<ActivityIndicator size="large" color="#000000" animating={this.state.carregando} style={styles.loading} />
-				<View>
+				<View >
 					<FlatList
 						data={this.state.consultas}
 						keyExtractor={item => item.id.toString()}
 						renderItem={
-							(consulta) => 
-							<Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} navigation ={this.props.navigation}/>
+							(consulta) => <Consulta consulta={consulta.item} tipoUsuario={this.state.usuarioLogado.Role} navigation ={this.props.navigation}/>
 						}
 						>
 					</FlatList>
-					
+					<Text style={styles.aviso}>{this.state.erro}</Text>
 				</View>
+				
+				
 			</View>
 		);
 	}
