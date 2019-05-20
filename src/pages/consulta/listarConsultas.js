@@ -6,7 +6,7 @@ import {
 	View, 
 	ActivityIndicator, 
 	TouchableOpacity, 
-	Alert,
+	Alert,StatusBar
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage'
@@ -170,6 +170,7 @@ class ListarConsultas extends Component {
 	
 		return (
 			<View style={{flex:1}}>
+				<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'light-content'}/>
 				<ActivityIndicator size="large" color="#000000" animating={this.state.carregando} style={styles.loading} />
 				<View >
 					<FlatList

@@ -91,7 +91,7 @@ class Login extends Component {
 		null;
 		return (
 			<View style={styles.mainContent}>
-				<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'dark-content'}/>
+				<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'light-content'}/>
 				<Text style={styles.loginTitle}>Login</Text>
 				<View style={styles.loginForm}>
 					<View style={styles.loginInputView}>

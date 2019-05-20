@@ -109,3 +109,7 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - [Stack Navigator](https://reactnavigation.org/docs/en/stack-navigator.html#navigationoptions-used-by-stacknavigator)  
 - [Activity Indicator](https://facebook.github.io/react-native/docs/activityindicator)  
 - [Logout Button](https://www.youtube.com/watch?v=Aj5QN7q3xdI)  
+
+https://facebook.github.io/react-native/docs/geolocation.html
+https://medium.com/@princessjanf/react-native-maps-with-direction-from-current-location-ab1a371732c2
+https://medium.com/nerdzao/utilizando-rotas-com-a-google-maps-api-no-react-native-69a05a434ab5

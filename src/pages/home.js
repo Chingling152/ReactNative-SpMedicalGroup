@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text , View , ActivityIndicator} from 'react-native';
+import { Text , View , StatusBar} from 'react-native';
 import { TokenValido, UsuarioLogado } from '../services/auth';
 import AsyncStorage from '@react-native-community/async-storage'
 import { ApiRequest } from '../services/apiServices';
@@ -16,19 +16,20 @@ class Home extends Component {
 			email: "",
 			senha: "",
 			mensagem: "",
+			carregando:true
 		};
 	}
 
 	componentDidMount() {
-        this._validarApi();
-    }
+		this._validarApi();
+	}
     
-    _validarApi = async () =>{
+    _validarApi = async () =>{		
         this.setState({mensagem:'Conectando-se...'})
         ApiRequest("").Listar().then(
             resultado =>{
                 TokenValido().then(
-                    valido => {
+					valido => {
                         if (valido) {
                             this.props.navigation.navigate("Consultas")
                         } else {
@@ -37,10 +38,19 @@ class Home extends Component {
                     }
                 )
             }
-        ).catch(err => this.setState({mensagem:"Não foi possivel se conectar ao servidor\nTente novamente mais tarde"}))
+        ).catch(err => 
+			this.setState(
+				{
+					mensagem:"Não foi possivel se conectar ao servidor\nTente novamente mais tarde",
+					carregando:false
+				}
+			)
+			
+		)
     }
 
 	_buscarDados = async () => {
+		
         this.setState({mensagem:'Verificando dados...'})
 		UsuarioLogado().then(
 			usuario => {
@@ -87,7 +97,12 @@ class Home extends Component {
 							case 404:
 								resultado.json().then(
 									resposta => {
-										this.setState({ mensagem: "Falha ao logar automaticamente :\n"+resposta })
+										this.setState(
+											{ 
+												mensagem: "Falha ao logar automaticamente :\n"+resposta,
+												carregando:false 
+											}
+										)
 									}
                                 );
 								break;
@@ -99,17 +114,18 @@ class Home extends Component {
 				)
 				.catch(erro => {
 					//console.warn(erro)
-					this.setState({ mensagem: "Ocorreu um erro ao se conectar com o servidor" })
+					this.setState(
+						{ 
+							mensagem: "Ocorreu um erro ao se conectar com o servidor",
+							carregando:false 
+						}
+					)
 				})
 	}
     render(){
-        const carregador = 
-		this.state.carregando?
-		<ActivityIndicator size="large" color="#FFFFFF" animating={true}/>:
-		null;
         return(
             <View style={{backgroundColor:'#8beda4',height:'100%',alignContent:'center',justifyContent: 'center'}}>
-                {carregador}
+				<StatusBar backgroundColor={'#518c60'} bar-barStyle={'light-content'}/>
                 <Text style={{fontSize:30,color:'white',textAlign:'center'}}>{this.state.mensagem}</Text>
             </View>
         )

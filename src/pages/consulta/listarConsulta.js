@@ -1,23 +1,87 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View ,StatusBar} from 'react-native';
+import { StyleSheet, Text, View , PermissionsAndroid,StatusBar} from 'react-native';
 import { CustomConverter } from '../../services/converter';
 import { ScrollView } from 'react-native-gesture-handler';
+import MapView from 'react-native-maps'
 //import console = require('console');
 
+const GOOGLE_MAPS_APIKEY = 'AIzaSyBY334k222jW-9d5JLxBu5L_BM-Fe5mXtA';
 
 class ListarConsulta extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			consulta:[]
+			consulta:[],
+			latitude: null,
+			longitude: null,
+			erro:null,
 		}
 	}
+
+	_permissaoUsuario = async ()=> {
+		PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
+			resultado =>{
+				if(!resultado){
+					const granted = PermissionsAndroid.request(
+						PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+						{
+							'title': 'Permissão de localização',
+							'message': 'Esse aplicativo quer saber sua localização atual ',
+							buttonNeutral: 'Não',
+							buttonNegative: 'Não e não pergunte denovo',
+							buttonPositive: 'Sim',
+						}
+					  ).then(
+						  i =>{
+							  console.warn(i)
+						  }
+					  )
+				}
+			}
+		)/*
+			try {
+			  const granted = await PermissionsAndroid.request(
+				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+				{
+				  	'title': 'Permissão de localização',
+				  	'message': 'Esse aplicativo quer saber sua localização atual ',
+				  	buttonNeutral: 'Não',
+					buttonNegative: 'Não e não pergunte denovo',
+					buttonPositive: 'Sim',
+				}
+			  )
+			  
+			  if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+				console.warn("Obrigado!!!");
+				navigator.geolocation.getCurrentPosition(
+					position => {
+					  console.warn(position);
+					  this.setState({
+						latitude: position.coords.latitude,
+						longitude: position.coords.longitude,
+						erro: null,
+					  });
+					},
+					(error) => this.setState({ erro: error.message }),
+					{ enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+				);
+			  } else {
+				console.warn(granted)
+			  }
+			} catch (err) {
+			  console.warn(err)
+			}*/
+		  }
+
+	componentDidMount() {
+		this._permissaoUsuario()
+	}
+
 
 	_dadosMedico = () =>{
 		const medico = this.props.navigation.getParam('consulta', null).idMedicoNavigation;
 		return(
 		<View style={styles.informacoes}>
-			<StatusBar backgroundColor={'#518c60'} bar-barStyle={'dark-content'}/>
 			<Text style={styles.titulo}>Medico</Text>
 			<View>
 				<Text style={styles.subtitulo}>{'Nome : '}
@@ -89,6 +153,14 @@ class ListarConsulta extends Component {
 					<Text style={styles.conteudo}>{consulta.descricao}</Text>
 					</Text>
 				</View>
+				<View>
+					<Text style={styles.subtitulo}>{'Data da Consulta : '}
+					<Text style={styles.conteudo}>{CustomConverter(consulta.dataConsulta).toDate()}</Text>
+					</Text>
+					<Text style={styles.subtitulo}>{'Horario : '}
+					<Text style={styles.conteudo}>{consulta.dataConsulta.split(' ')[1]}</Text>
+					</Text>
+				</View>
 			</View>
 		)
 	}
@@ -115,11 +187,21 @@ class ListarConsulta extends Component {
 	render() {
 			return (
 				<View style={{display:'flex'}}>
+					<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'light-content'}/>
 					<ScrollView style={styles.dadosConsulta}>
 						{this._dadosMedico()} 
 						{this._dadosPaciente()} 
 						{this._dadosClinica()} 
 						{this._dadosConsulta()} 
+						<View>
+							<Text>Teste</Text>
+							<Text> {this.state.latitude} </Text>
+							<Text> {this.state.longitude} </Text>
+							<Text> {this.state.erro} </Text>
+						</View>
+						<View>
+							<MapView style={{position: 'absolute',top: 0,left: 0,right: 0,bottom: 0}}></MapView>
+      					</View>
 					</ScrollView>
 				</View>
 			);
