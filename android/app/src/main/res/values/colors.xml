@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <color name="primaria">#afedbf</color>
+    <color name="primaria">#AFEBDF</color>
+    <color name="statusbar">#518C60</color>
 </resources>

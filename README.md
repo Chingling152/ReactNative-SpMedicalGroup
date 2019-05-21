@@ -64,6 +64,8 @@ Na tela de visualizar terá apenas alguns detalhes a mais. Como por exemplo a de
 ![Listagem consulta](https://trello-attachments.s3.amazonaws.com/5cd94e84ab55b2087ea1c77b/1080x1920/f982fbbf07f75bf519a21f642ff0f719/Screenshot_1558128253.png)
 >
 
+Você podera ver a sua localização atual e o caminho para a clinica onde a consulta foi marcada. Para isso voce deverá permitir que o aplicativo use a função GPS do seu celular e estar com ela ligada.  
+
 ## Services
 
 ## Cronograma
@@ -99,6 +101,19 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 	- Iniciei a documentação colocando informações ate aqui (fui incrementando esse cronograma a cada dia)  
 	- Adicionei feedback aos usuarios que não tem consultas
 	- Adicionei uma pagina inicial para verificar dados do usuario e API  
+- **Dia 6**  
+	- Passei o dia inteiro retocando o projeto (testando vulnerabilidades). 
+	- Arrumei o design do aplicativo 
+	- Fixei alguns problemas de UX 
+- **Dia 7**
+	- Iniciei a parte de localização do usuario.  
+	- Tentei resolver problemas com permissão do usuario para acessar o GPS. 
+	- Finalizei o
+- **Dia 8**
+	- Resolvi problemas do GPS e permissão do usuario
+	- Inicei o mapa 
+	- Modifiquei a status bar
+
 
 
 ## Bibliografia  
@@ -106,10 +121,11 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - [Passando parametros para telas](https://reactnavigation.org/docs/en/params.html)  
 - [AsyncStorage - MultiGet](https://facebook.github.io/react-native/docs/asyncstorage#multiget)  
 - [Icone e Splashscreen](https://www.youtube.com/watch?v=3Gf9yb53bJM)  
+- [StatusBar](https://github.com/Saulomsantos/senai_roman_desafio_projectmanagement/blob/master/frontEnd/RNRoman/android/app/src/main/res/drawable/background_splash.xmll)  
 - [Stack Navigator](https://reactnavigation.org/docs/en/stack-navigator.html#navigationoptions-used-by-stacknavigator)  
 - [Activity Indicator](https://facebook.github.io/react-native/docs/activityindicator)  
 - [Logout Button](https://www.youtube.com/watch?v=Aj5QN7q3xdI)  
-
-https://facebook.github.io/react-native/docs/geolocation.html
+- [Permissão e localização do usuario](https://facebook.github.io/react-native/docs/geolocation.html)
+- [Texto Animado](https://www.youtube.com/watch?v=IWW72SArDMo)
 https://medium.com/@princessjanf/react-native-maps-with-direction-from-current-location-ab1a371732c2
 https://medium.com/nerdzao/utilizando-rotas-com-a-google-maps-api-no-react-native-69a05a434ab5

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text , View , StatusBar} from 'react-native';
+import {Text , View} from 'react-native';
 import { TokenValido, UsuarioLogado } from '../services/auth';
 import AsyncStorage from '@react-native-community/async-storage'
 import { ApiRequest } from '../services/apiServices';
@@ -18,14 +18,32 @@ class Home extends Component {
 			mensagem: "",
 			carregando:true
 		};
+		this.valor = '';
 	}
 
 	componentDidMount() {
 		this._validarApi();
+		this.interval = setInterval(() => {
+			if(this.state.carregando){
+				if(this.valor.length >3 ){
+					this.valor = ''
+				}else{
+					this.valor += '.';
+				}
+			}else{
+				this.valor = '';
+			}
+			this.setState({mensagem:this.state.mensagem})
+		}, 600);
+	}
+
+	componentWillUnmount(){
+		clearInterval(this.interval)
 	}
     
     _validarApi = async () =>{		
-        this.setState({mensagem:'Conectando-se...'})
+			this.setState({mensagem:'Conectando-se'})
+        
         ApiRequest("").Listar().then(
             resultado =>{
                 TokenValido().then(
@@ -50,8 +68,7 @@ class Home extends Component {
     }
 
 	_buscarDados = async () => {
-		
-        this.setState({mensagem:'Verificando dados...'})
+        this.setState({mensagem:'Verificando dados'})
 		UsuarioLogado().then(
 			usuario => {
 				const email = usuario.email
@@ -70,7 +87,7 @@ class Home extends Component {
 	}
 
 	_realizarLogin = async () => {
-		this.setState({ mensagem: "Fazendo login..." })
+		this.setState({ mensagem: "Fazendo login" })
 			this.setState({ carregando: true })
 			await ApiRequest("Usuario/Login")
 				.Cadastrar({
@@ -125,8 +142,7 @@ class Home extends Component {
     render(){
         return(
             <View style={{backgroundColor:'#8beda4',height:'100%',alignContent:'center',justifyContent: 'center'}}>
-				<StatusBar backgroundColor={'#518c60'} bar-barStyle={'light-content'}/>
-                <Text style={{fontSize:30,color:'white',textAlign:'center'}}>{this.state.mensagem}</Text>
+                <Text style={{fontSize:30,color:'white',textAlign:'center'}}>{this.state.mensagem + this.valor}</Text>
             </View>
         )
     }

@@ -170,7 +170,6 @@ class ListarConsultas extends Component {
 	
 		return (
 			<View style={{flex:1}}>
-				<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'light-content'}/>
 				<ActivityIndicator size="large" color="#000000" animating={this.state.carregando} style={styles.loading} />
 				<View >
 					<FlatList

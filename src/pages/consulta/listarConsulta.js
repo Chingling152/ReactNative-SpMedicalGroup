@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View , PermissionsAndroid,StatusBar} from 'react-native';
+import { StyleSheet, Text, View , PermissionsAndroid} from 'react-native';
 import { CustomConverter } from '../../services/converter';
 import { ScrollView } from 'react-native-gesture-handler';
-import MapView from 'react-native-maps'
+import MapView from 'react-native-maps'	
 //import console = require('console');
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBY334k222jW-9d5JLxBu5L_BM-Fe5mXtA';
@@ -11,14 +11,63 @@ class ListarConsulta extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			consulta:[],
+			consulta:{
+				idMedicoNavigation:{
+					idClinicaNavigation:[]
+				},
+				idPacienteNavigation:[]
+			},
 			latitude: null,
 			longitude: null,
 			erro:null,
+			mapa:false
 		}
+	}
+	
+	componentDidMount() {
+		this._permissaoUsuario()
 	}
 
 	_permissaoUsuario = async ()=> {
+		try {
+			const granted = await PermissionsAndroid.request(
+			  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+			  {
+					'title': 'Permissão de localização',
+					'message': 'Esse aplicativo quer saber sua localização atual ',
+					buttonNeutral: 'Não',
+				  	buttonNegative: 'Não e não pergunte novamente',
+				  	buttonPositive: 'Sim',
+			  }
+			)
+			
+			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+			  navigator.geolocation.watchPosition(
+				  position => {
+					console.warn(position);
+					this.setState({
+					  latitude: position.coords.latitude,
+					  longitude: position.coords.longitude,
+					  erro: null,
+					});
+				  },
+				  (error) => this.setState({ erro: error.message }),
+				  { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+			  );
+			} else {
+			  this.setState({erro:'Habilite o GPS para saber como chegar a clinica'})
+			}
+			this.setState({mapa:granted});
+		  } catch (err) {
+			console.warn(err)
+		  }
+		  /*
+		
+		navigator.geolocation.getCurrentPosition(
+			position=> console.warn(position),
+			erro => console.warn(erro),
+		)*/
+		/*
 		PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
 			resultado =>{
 				if(!resultado){
@@ -38,7 +87,7 @@ class ListarConsulta extends Component {
 					  )
 				}
 			}
-		)/*
+		)*//*
 			try {
 			  const granted = await PermissionsAndroid.request(
 				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -73,13 +122,8 @@ class ListarConsulta extends Component {
 			}*/
 		  }
 
-	componentDidMount() {
-		this._permissaoUsuario()
-	}
-
-
 	_dadosMedico = () =>{
-		const medico = this.props.navigation.getParam('consulta', null).idMedicoNavigation;
+		const medico = this.props.navigation.getParam('consulta', this.state.consulta).idMedicoNavigation;
 		return(
 		<View style={styles.informacoes}>
 			<Text style={styles.titulo}>Medico</Text>
@@ -103,7 +147,7 @@ class ListarConsulta extends Component {
 	}
 
 	_dadosPaciente = () => {
-		const paciente = this.props.navigation.getParam('consulta', null).idPacienteNavigation;
+		const paciente = this.props.navigation.getParam('consulta', this.state.consulta).idPacienteNavigation;
 		const dataNascimento = CustomConverter(paciente.dataNascimento).toDate()
 		return(
 		<View style={styles.informacoes}>
@@ -139,7 +183,7 @@ class ListarConsulta extends Component {
 
 	_dadosConsulta = () =>{
 		const { navigation } = this.props;
-		const consulta = navigation.getParam('consulta', null)
+		const consulta = navigation.getParam('consulta', this.state.consulta)
 		return(
 			<View style={styles.informacoes}>
 				<Text style={styles.titulo}>Consulta</Text>
@@ -149,16 +193,16 @@ class ListarConsulta extends Component {
 					</Text>
 				</View>
 				<View>
-					<Text style={styles.subtitulo}>{'Descrição : '}
-					<Text style={styles.conteudo}>{consulta.descricao}</Text>
-					</Text>
-				</View>
-				<View>
 					<Text style={styles.subtitulo}>{'Data da Consulta : '}
 					<Text style={styles.conteudo}>{CustomConverter(consulta.dataConsulta).toDate()}</Text>
 					</Text>
 					<Text style={styles.subtitulo}>{'Horario : '}
 					<Text style={styles.conteudo}>{consulta.dataConsulta.split(' ')[1]}</Text>
+					</Text>
+				</View>
+				<View>
+					<Text style={styles.subtitulo}>{'Descrição : '}
+					<Text style={styles.conteudo}>{consulta.descricao}</Text>
 					</Text>
 				</View>
 			</View>
@@ -185,14 +229,22 @@ class ListarConsulta extends Component {
 	}
 	
 	render() {
+		console.warn(
+			{
+				latitude:this.state.latitude,
+				longitude:this.state.longitude
+			}
+		)
+
+		
 			return (
 				<View style={{display:'flex'}}>
-					<StatusBar backgroundColor={'#5ba06d'} bar-barStyle={'light-content'}/>
 					<ScrollView style={styles.dadosConsulta}>
 						{this._dadosMedico()} 
 						{this._dadosPaciente()} 
 						{this._dadosClinica()} 
 						{this._dadosConsulta()} 
+						{/*this._dadosMapa()*/}
 						<View>
 							<Text>Teste</Text>
 							<Text> {this.state.latitude} </Text>
@@ -200,7 +252,18 @@ class ListarConsulta extends Component {
 							<Text> {this.state.erro} </Text>
 						</View>
 						<View>
-							<MapView style={{position: 'absolute',top: 0,left: 0,right: 0,bottom: 0}}></MapView>
+							<MapView style={StyleSheet.absoluteFillObject}>
+							{
+								this.state.mapa && !!this.state.latitude && !!this.state.longitude &&
+							(<MapView.Marker coordinate={
+									{
+										latitude:this.state.latitude,
+										longitude:this.state.longitude
+									}
+								} 
+							/>)
+							}
+							</MapView>
       					</View>
 					</ScrollView>
 				</View>
