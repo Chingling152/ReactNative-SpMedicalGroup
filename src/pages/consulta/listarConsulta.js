@@ -13,12 +13,19 @@ class ListarConsulta extends Component {
 		this.state={
 			consulta:{
 				idMedicoNavigation:{
-					idClinicaNavigation:[]
+					idClinicaNavigation:[],
+					idEspecialidadeNavigation:[]
 				},
 				idPacienteNavigation:[]
 			},
-			latitude: null,
-			longitude: null,
+			origem:{
+				latitude: null,
+				longitude: null
+			},
+			destino:{
+				latitude: null,
+				longitude: null
+			},
 			erro:null,
 			mapa:false
 		}
@@ -31,96 +38,38 @@ class ListarConsulta extends Component {
 	_permissaoUsuario = async ()=> {
 		try {
 			const granted = await PermissionsAndroid.request(
-			  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-			  {
+				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+				{
 					'title': 'Permissão de localização',
 					'message': 'Esse aplicativo quer saber sua localização atual ',
 					buttonNeutral: 'Não',
-				  	buttonNegative: 'Não e não pergunte novamente',
-				  	buttonPositive: 'Sim',
-			  }
-			)
-			
-			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-			  navigator.geolocation.watchPosition(
-				  position => {
-					console.warn(position);
-					this.setState({
-					  latitude: position.coords.latitude,
-					  longitude: position.coords.longitude,
-					  erro: null,
-					});
-				  },
-				  (error) => this.setState({ erro: error.message }),
-				  { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
-			  );
-			} else {
-			  this.setState({erro:'Habilite o GPS para saber como chegar a clinica'})
-			}
-			this.setState({mapa:granted});
-		  } catch (err) {
-			console.warn(err)
-		  }
-		  /*
-		
-		navigator.geolocation.getCurrentPosition(
-			position=> console.warn(position),
-			erro => console.warn(erro),
-		)*/
-		/*
-		PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then(
-			resultado =>{
-				if(!resultado){
-					const granted = PermissionsAndroid.request(
-						PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-						{
-							'title': 'Permissão de localização',
-							'message': 'Esse aplicativo quer saber sua localização atual ',
-							buttonNeutral: 'Não',
-							buttonNegative: 'Não e não pergunte denovo',
-							buttonPositive: 'Sim',
-						}
-					  ).then(
-						  i =>{
-							  console.warn(i)
-						  }
-					  )
-				}
-			}
-		)*//*
-			try {
-			  const granted = await PermissionsAndroid.request(
-				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-				{
-				  	'title': 'Permissão de localização',
-				  	'message': 'Esse aplicativo quer saber sua localização atual ',
-				  	buttonNeutral: 'Não',
-					buttonNegative: 'Não e não pergunte denovo',
+					buttonNegative: 'Não e não pergunte novamente',
 					buttonPositive: 'Sim',
 				}
-			  )
-			  
-			  if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-				console.warn("Obrigado!!!");
-				navigator.geolocation.getCurrentPosition(
+			)
+
+			if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+				navigator.geolocation.watchPosition(
 					position => {
-					  console.warn(position);
-					  this.setState({
-						latitude: position.coords.latitude,
-						longitude: position.coords.longitude,
-						erro: null,
-					  });
+						this.setState({
+							origem: {
+								latitude: position.coords.latitude,
+								longitude: position.coords.longitude
+							},
+							erro: null,
+						});
 					},
 					(error) => this.setState({ erro: error.message }),
 					{ enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
 				);
-			  } else {
-				console.warn(granted)
-			  }
-			} catch (err) {
-			  console.warn(err)
-			}*/
-		  }
+			} else {
+				this.setState({ erro: 'Habilite o GPS para saber como chegar a clinica' })
+			}
+			this.setState({ mapa: granted });
+		} catch (err) {
+			console.warn(err)
+		}
+	}
 
 	_dadosMedico = () =>{
 		const medico = this.props.navigation.getParam('consulta', this.state.consulta).idMedicoNavigation;
@@ -229,14 +178,7 @@ class ListarConsulta extends Component {
 	}
 	
 	render() {
-		console.warn(
-			{
-				latitude:this.state.latitude,
-				longitude:this.state.longitude
-			}
-		)
 
-		
 			return (
 				<View style={{display:'flex'}}>
 					<ScrollView style={styles.dadosConsulta}>
@@ -247,23 +189,35 @@ class ListarConsulta extends Component {
 						{/*this._dadosMapa()*/}
 						<View>
 							<Text>Teste</Text>
-							<Text> {this.state.latitude} </Text>
-							<Text> {this.state.longitude} </Text>
+							<Text> {this.state.origem.latitude} </Text>
+							<Text> {this.state.origem.longitude} </Text>
 							<Text> {this.state.erro} </Text>
 						</View>
-						<View>
-							<MapView style={StyleSheet.absoluteFillObject}>
+						<View style={styles.informacoes}>
 							{
-								this.state.mapa && !!this.state.latitude && !!this.state.longitude &&
-							(<MapView.Marker coordinate={
+								!!this.state.origem.latitude && !!this.state.origem.longitude &&
+							<MapView style={StyleSheet.absoluteFillObject}
+							 region={
+								 {
+									 latitude:this.state.origem.latitude,
+									 longitude:this.state.origem.longitude,
+									 longitudeDelta:0.1,
+									 latitudeDelta:0.1
+								 }
+							 }
+							 loadingEnabled={true}
+							 toolbarEnabled={true}
+							 zoomControlEnabled={true}
+							 >
+							<MapView.Marker ref={map => this.mapView = map} 
+								coordinate={
 									{
-										latitude:this.state.latitude,
-										longitude:this.state.longitude
+										latitude:this.state.origem.latitude,
+										longitude:this.state.origem.longitude
 									}
-								} 
-							/>)
-							}
+								}/>
 							</MapView>
+							}
       					</View>
 					</ScrollView>
 				</View>

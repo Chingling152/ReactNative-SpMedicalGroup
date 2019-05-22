@@ -17,6 +17,7 @@ Para que o projeto funcione você precisará ter :
  - [API](https://github.com/Chingling152/WebApi-SPMedGroup) (E todos seus requisitos)  
  - [Node.js , JDK e Android SDK](https://gist.github.com/Chingling152/dc3e7dc6cd784636649a43e9fcaeb060)  
  Todos eles tem uma documentação propria, então é só seguir as instruções.  
+ - O ultimo requisito é ter um celular android oum uma AVD com google play services instalado para que possa saber sua localização e da consulta.  
  
 ### Preparação  
 Antes de iniciar o projeto você deve fazer tudo que está nos links acima. Então você deverá :  
@@ -35,10 +36,14 @@ const baseURL = "http://{coloque seu ip aqui}:5000/api/v1/"//mude para o seu ip 
 ### Bibliotecas  
 Aqui está todas as bibliotecas que serão instaladas ao ser digitado o comando **npm install** na pasta do projeto (alem do react-native)  
 
-- react-navigation  
-- react-native-gesture-handler  
-- \@react-native-community/async-storage  
-- jwt-decode  
+- **react-navigation** - *navegação entre paginas*  
+- **react-native-gesture-handler** - *lidar com scroll e gestos de zoom e rolagem*  
+- **\@react-native-community/async-storage** - *armazenar dados do usuario localmente*  
+- **jwt-decode** - *validar dados do usuario*  
+- **react-native-maps** - *gerar mapas*  
+- **react-native-maps-direction** - *exibir rota entre 2 pontos*  
+- **react-native-google-maps-directions** - *usar API do google para buscar e retornar locais*  
+- **react-native-geocoding** - *retorna informações de um local)*  
 
 ## Telas
 Apos iniciar o projeto a primeira tela sera a de login (você precisa pelo menos ter um valor cadastrado no banco de dados ([Veja: Banco de dados- Valores inicias](https://github.com/Chingling152/SQL-SPMedGroup/blob/master/Essenciais/5-Valores_iniciais.sql)) ou insira algum usando a API/Site)  
