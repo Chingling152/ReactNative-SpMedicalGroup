@@ -6,6 +6,7 @@ Tem o objetivo de mostrar as consultas para os usuarios.
 - 1 [Instalação](#Instalação)  
     - 1.1 [Preparação](#Preparação)  
     - 1.2 [Bibliotecas](#Bibliotecas)  
+	- 1.3 [Google API](#Google-API)
 - 2 [Telas](#Telas)  
 - 3 [Services](#Services)  
 - 4 [Cronograma](#Cronograma)  
@@ -17,7 +18,7 @@ Para que o projeto funcione você precisará ter :
  - [API](https://github.com/Chingling152/WebApi-SPMedGroup) (E todos seus requisitos)  
  - [Node.js , JDK e Android SDK](https://gist.github.com/Chingling152/dc3e7dc6cd784636649a43e9fcaeb060)  
  Todos eles tem uma documentação propria, então é só seguir as instruções.  
- - O ultimo requisito é ter um celular android oum uma AVD com google play services instalado para que possa saber sua localização e da consulta.  
+ - O ultimo requisito é ter um celular android ou uma AVD com google play services instalado para que possa saber sua localização e da consulta.  
  
 ### Preparação  
 Antes de iniciar o projeto você deve fazer tudo que está nos links acima. Então você deverá :  
@@ -43,7 +44,18 @@ Aqui está todas as bibliotecas que serão instaladas ao ser digitado o comando 
 - **react-native-maps** - *gerar mapas*  
 - **react-native-maps-direction** - *exibir rota entre 2 pontos*  
 - **react-native-google-maps-directions** - *usar API do google para buscar e retornar locais*  
-- **react-native-geocoding** - *retorna informações de um local)*  
+
+Essas bibliotecas também deverão ser linkadas ao projeto utilizando o comando:
+``` npm
+react-native link {nome da biblioteca}
+```
+
+### Google API 
+Caso a minha API do google não esteja funcionando (porque tem um limite de requisições). Você devera criar uma nova, [neste link](https://console.developers.google.com/google).  
+Lá você tera que gerar uma key para as seguintes APIs.  
+- Directions API  
+- Geocoding API  
+- Maps SDK for Android  
 
 ## Telas
 Apos iniciar o projeto a primeira tela sera a de login (você precisa pelo menos ter um valor cadastrado no banco de dados ([Veja: Banco de dados- Valores inicias](https://github.com/Chingling152/SQL-SPMedGroup/blob/master/Essenciais/5-Valores_iniciais.sql)) ou insira algum usando a API/Site)  
