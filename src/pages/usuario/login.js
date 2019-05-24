@@ -32,7 +32,7 @@ class Login extends Component {
 			return false
 		}
 		const senha = this.state.senha
-		if (senha == null || senha.trim().length === 0) {
+		if (senha == null || senha.length === 0) {
 			this.setState({ erro: "A senha é obrigatoria" })
 			return false
 		}

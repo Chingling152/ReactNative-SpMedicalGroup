@@ -36,7 +36,6 @@ class ListarConsulta extends Component {
 
 	componentDidMount() {
 		this._permissaoUsuario();
-		getDirections
 	}
 
 	_procurarClinica = () => {
@@ -47,11 +46,10 @@ class ListarConsulta extends Component {
 				.then((resposta) =>
 					resposta.json()
 				).then(location => {
-					console.warn(location)
+					//console.warn(location)
 					switch (location.status) {
 						case 'OK':
 							this.setState({
-								//address: location.results[0].formatted_address,
 								destino: {
 									longitude: location.results[0].geometry.location.lng,
 									latitude: location.results[0].geometry.location.lat
@@ -72,7 +70,7 @@ class ListarConsulta extends Component {
 					this.setState({ erro: 'Não foi possivel encontrar este lugar' })
 				})
 		} else {
-			console.warn('clinica')
+			
 		}
 		//ZERO_RESULTS
 		// OVER_QUERY_LIMIT
@@ -192,6 +190,8 @@ class ListarConsulta extends Component {
 	_dadosConsulta = () => {
 		const { navigation } = this.props;
 		const consulta = navigation.getParam('consulta', this.state.consulta)
+
+		let lerMais = false;
 		return (
 			<View style={styles.informacoes}>
 				<Text style={styles.titulo}>Consulta</Text>
@@ -210,7 +210,7 @@ class ListarConsulta extends Component {
 				</View>
 				<View>
 					<Text style={styles.subtitulo}>{'Descrição : '}
-						<Text style={styles.conteudo}>{consulta.descricao}</Text>
+						<Text style={styles.conteudo}>{consulta.descricao !==null? consulta.descricao : "Sem descrição disponivel"}</Text>
 					</Text>
 				</View>
 			</View>
@@ -244,7 +244,8 @@ class ListarConsulta extends Component {
 		) {
 			return (
 				<View>
-					<View style={{ ...styles.informacoes, height: 300, paddingVertical: 30, backgroundColor: '#81df99' }}>
+					<Text style={{...styles.subtitulo,alignSelf:'center'}}>{'Como chegar até a clinica'}</Text>
+					<View style={{ ...styles.informacoes, height: 300, paddingVertical: 30,marginVertical:15, backgroundColor: '#81df99' }}>
 						<MapView style={StyleSheet.absoluteFillObject}
 							region={
 								{
@@ -257,6 +258,7 @@ class ListarConsulta extends Component {
 							loadingEnabled={true}
 							toolbarEnabled={true}
 							zoomControlEnabled={true}
+							rotateEnabled={false}
 						>
 							<MapView.Marker ref={map => this.mapView = map}
 								coordinate={
@@ -274,6 +276,8 @@ class ListarConsulta extends Component {
 								origin={this.state.origem}
 								destination={this.state.destino}
 								apikey={GOOGLE_MAPS_APIKEY}
+								strokeColor={'red'}
+								strokeWidth={2}
 							/>
 
 							<MapView.Marker
@@ -290,7 +294,7 @@ class ListarConsulta extends Component {
 							</MapView.Marker>
 						</MapView>
 					</View>
-					<TouchableOpacity onPress={this._redirecionarUsuario} style={{...DefaultStyleSheet.greenButton,...DefaultStyleSheet.shadowContent}}>
+					<TouchableOpacity onPress={this._redirecionarUsuario} style={{...DefaultStyleSheet.greenButton,...DefaultStyleSheet.shadowContent,marginTop:10}}>
 						<Text style={{color:'#FFFFFF'}}>Clique para ver no Google Maps</Text>
 					</TouchableOpacity>
 					<View style={{ marginBottom: 50 }} />

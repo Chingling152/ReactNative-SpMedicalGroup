@@ -35,7 +35,7 @@ class Home extends Component {
 			}
 			this.setState({mensagem:this.state.mensagem})
 		}, 600);
-		console.disableYellowBox = true;
+		// console.disableYellowBox = true;
 	}
 
 	componentWillUnmount(){
