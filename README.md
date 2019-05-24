@@ -6,9 +6,9 @@ Tem o objetivo de mostrar as consultas para os usuarios.
 - 1 [Instalação](#Instalação)  
     - 1.1 [Preparação](#Preparação)  
     - 1.2 [Bibliotecas](#Bibliotecas)  
+	- 1.3 [Google API](#Google-API)
 - 2 [Telas](#Telas)  
-- 3 [Services](#Services)  
-- 4 [Cronograma](#Cronograma)  
+- 3 [Cronograma](#Cronograma)  
 - 4 [Bibliografia](#Bibliografia)  
 
 ## Instalação  
@@ -17,6 +17,7 @@ Para que o projeto funcione você precisará ter :
  - [API](https://github.com/Chingling152/WebApi-SPMedGroup) (E todos seus requisitos)  
  - [Node.js , JDK e Android SDK](https://gist.github.com/Chingling152/dc3e7dc6cd784636649a43e9fcaeb060)  
  Todos eles tem uma documentação propria, então é só seguir as instruções.  
+ - O ultimo requisito é ter um celular android ou uma AVD com google play services instalado para que possa saber sua localização e da consulta.  
  
 ### Preparação  
 Antes de iniciar o projeto você deve fazer tudo que está nos links acima. Então você deverá :  
@@ -35,10 +36,25 @@ const baseURL = "http://{coloque seu ip aqui}:5000/api/v1/"//mude para o seu ip 
 ### Bibliotecas  
 Aqui está todas as bibliotecas que serão instaladas ao ser digitado o comando **npm install** na pasta do projeto (alem do react-native)  
 
-- react-navigation  
-- react-native-gesture-handler  
-- \@react-native-community/async-storage  
-- jwt-decode  
+- **react-navigation** - *navegação entre paginas*  
+- **react-native-gesture-handler** - *lidar com scroll e gestos de zoom e rolagem*  
+- **\@react-native-community/async-storage** - *armazenar dados do usuario localmente*  
+- **jwt-decode** - *validar dados do usuario*  
+- **react-native-maps** - *gerar mapas*  
+- **react-native-maps-direction** - *exibir rota entre 2 pontos*  
+- **react-native-google-maps-directions** - *Enviar dados para o google maps*  
+
+Essas bibliotecas também deverão ser linkadas ao projeto utilizando o comando:
+``` npm
+react-native link {nome da biblioteca}
+```
+
+### Google API 
+Caso a minha API do google não esteja funcionando (porque há um limite de requisições). Você devera criar uma nova, [neste link](https://console.developers.google.com/google).  
+Lá você tera que gerar uma key para as seguintes APIs.  
+- Directions API  
+- Geocoding API  
+- Maps SDK for Android  
 
 ## Telas
 Apos iniciar o projeto a primeira tela sera a de login (você precisa pelo menos ter um valor cadastrado no banco de dados ([Veja: Banco de dados- Valores inicias](https://github.com/Chingling152/SQL-SPMedGroup/blob/master/Essenciais/5-Valores_iniciais.sql)) ou insira algum usando a API/Site)  
@@ -63,6 +79,8 @@ Na tela de visualizar terá apenas alguns detalhes a mais. Como por exemplo a de
 > Tela de listagem de consulta
 ![Listagem consulta](https://trello-attachments.s3.amazonaws.com/5cd94e84ab55b2087ea1c77b/1080x1920/f982fbbf07f75bf519a21f642ff0f719/Screenshot_1558128253.png)
 >
+
+Você podera ver a sua localização atual e o caminho para a clinica onde a consulta foi marcada. Para isso voce deverá permitir que o aplicativo use a função GPS do seu celular e estar com ela ligada.  
 
 ## Services
 
@@ -99,6 +117,25 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 	- Iniciei a documentação colocando informações ate aqui (fui incrementando esse cronograma a cada dia)  
 	- Adicionei feedback aos usuarios que não tem consultas
 	- Adicionei uma pagina inicial para verificar dados do usuario e API  
+- **Dia 6**  
+	- Passei o dia inteiro retocando o projeto (testando vulnerabilidades). 
+	- Arrumei o design do aplicativo 
+	- Fixei alguns problemas de UX 
+- **Dia 7**
+	- Iniciei a parte de localização do usuario.  
+	- Tentei resolver problemas com permissão do usuario para acessar o GPS. 
+	- Finalizei os requisitos minimos do aplicativo 
+- **Dia 8**
+	- Resolvi problemas do GPS e permissão do usuario
+	- Inicei o mapa 
+	- Modifiquei a status bar
+- **Dia 9**  
+	- Adicionei o mapa com a localização da consulta e do Usuario
+	- Criei a API no google maps 
+- **Dia 10**  
+	- Fiz a rota da localização do usuario até a da clinica Utilizando a API do google  
+	- Fiz o feedback caso a API não esteja funcionando ou o local da consulta não exista  
+	- Não adicionei a opção de redirecionar ao google maps p
 
 
 ## Bibliografia  
@@ -106,6 +143,9 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - [Passando parametros para telas](https://reactnavigation.org/docs/en/params.html)  
 - [AsyncStorage - MultiGet](https://facebook.github.io/react-native/docs/asyncstorage#multiget)  
 - [Icone e Splashscreen](https://www.youtube.com/watch?v=3Gf9yb53bJM)  
+- [StatusBar](https://github.com/Saulomsantos/senai_roman_desafio_projectmanagement/blob/master/frontEnd/RNRoman/android/app/src/main/res/drawable/background_splash.xmll)  
 - [Stack Navigator](https://reactnavigation.org/docs/en/stack-navigator.html#navigationoptions-used-by-stacknavigator)  
 - [Activity Indicator](https://facebook.github.io/react-native/docs/activityindicator)  
 - [Logout Button](https://www.youtube.com/watch?v=Aj5QN7q3xdI)  
+- [Permissão e localização do usuario](https://facebook.github.io/react-native/docs/geolocation.html)
+- [Utilizando rotas com google maps API](https://medium.com/nerdzao/utilizando-rotas-com-a-google-maps-api-no-react-native-69a05a434ab5)  

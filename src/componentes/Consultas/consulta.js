@@ -162,10 +162,7 @@ const styles = StyleSheet.create(
             fontSize:15
         },
         botaoVerMais:{
-            backgroundColor:'#8beda4',
-            alignSelf:'center',
-            padding:10,
-            borderColor:'#8beda4',
+            ...DefaultStyleSheet.greenButton,
             ...DefaultStyleSheet.shadowContent
         }
     }

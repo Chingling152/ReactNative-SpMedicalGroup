@@ -6,12 +6,12 @@ import {
 	View, 
 	ActivityIndicator, 
 	TouchableOpacity, 
-	Alert,
+	Alert
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { TokenValido, UsuarioLogado } from '../../services/auth';
+import { TokenValido } from '../../services/auth';
 import { ApiRequest } from '../../services/apiServices';
 
 import Consulta from '../../componentes/Consultas/consulta';
@@ -69,46 +69,12 @@ class ListarConsultas extends Component {
 				if (valido) {
 					this._listarConsultas();
 				} else {
-					UsuarioLogado().then(
-						usuario => {
-							this._loginUsuario(usuario)
-						}
-					);
+					this.props.navigation.navigate('Home')
 				}
 			}
 		)
 	}
-
-	_loginUsuario = async (usuario) => {
-		await ApiRequest("Usuario/Login")
-			.Cadastrar(usuario)
-			.then(
-				resultado => {
-					switch (resultado.status) {
-						case 200:
-							resultado.json().then(
-								resposta => {
-									AsyncStorage.multiSet(
-										[
-											["TokenSpMedGroup", resposta.token],
-											["EmailUsuarioSpMedGroup", usuario.email],
-											["SenhaUsuarioSpMedGroup", usuario.senha]
-										]
-									)
-
-								}
-							);
-							this._listarConsultas()
-							break;
-						default:
-							this.props.navigation.navigate("AuthStack")
-							break;
-					}
-				}
-			)
-			.catch(erro => console.warn(erro))
-	}
-
+	
 	_listarConsultas = async () => {
 		const token = await AsyncStorage.getItem('TokenSpMedGroup');
 		this.setState({ usuarioLogado: jwt(token) })
@@ -152,7 +118,7 @@ class ListarConsultas extends Component {
 						case 401:
 							resultado.json().then(
 								resposta => {
-									this.setState({ erro: 'Você não pode visualizar nenhuma consulta' })
+									this.setState({ erro: 'Você não esta autorizado a ver nenhuma consulta' })
 								}
 							);
 							break;

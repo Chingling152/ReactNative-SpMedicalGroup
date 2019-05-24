@@ -14,6 +14,12 @@ export const DefaultStyleSheet = StyleSheet.create(
             shadowOpacity: 1, 
             shadowRadius: 1,
             elevation: 8,
+        },
+        greenButton:{
+            backgroundColor:'#8beda4',
+            alignSelf:'center',
+            padding:10,
+            borderColor:'#8beda4',
         }
     }
 );
