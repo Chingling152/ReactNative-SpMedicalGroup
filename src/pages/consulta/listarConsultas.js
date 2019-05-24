@@ -6,12 +6,12 @@ import {
 	View, 
 	ActivityIndicator, 
 	TouchableOpacity, 
-	Alert,StatusBar
+	Alert
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { TokenValido, UsuarioLogado } from '../../services/auth';
+import { TokenValido } from '../../services/auth';
 import { ApiRequest } from '../../services/apiServices';
 
 import Consulta from '../../componentes/Consultas/consulta';

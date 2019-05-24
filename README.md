@@ -8,8 +8,7 @@ Tem o objetivo de mostrar as consultas para os usuarios.
     - 1.2 [Bibliotecas](#Bibliotecas)  
 	- 1.3 [Google API](#Google-API)
 - 2 [Telas](#Telas)  
-- 3 [Services](#Services)  
-- 4 [Cronograma](#Cronograma)  
+- 3 [Cronograma](#Cronograma)  
 - 4 [Bibliografia](#Bibliografia)  
 
 ## Instalação  
@@ -43,7 +42,7 @@ Aqui está todas as bibliotecas que serão instaladas ao ser digitado o comando 
 - **jwt-decode** - *validar dados do usuario*  
 - **react-native-maps** - *gerar mapas*  
 - **react-native-maps-direction** - *exibir rota entre 2 pontos*  
-- **react-native-google-maps-directions** - *usar API do google para buscar e retornar locais*  
+- **react-native-google-maps-directions** - *Enviar dados para o google maps*  
 
 Essas bibliotecas também deverão ser linkadas ao projeto utilizando o comando:
 ``` npm
@@ -51,7 +50,7 @@ react-native link {nome da biblioteca}
 ```
 
 ### Google API 
-Caso a minha API do google não esteja funcionando (porque tem um limite de requisições). Você devera criar uma nova, [neste link](https://console.developers.google.com/google).  
+Caso a minha API do google não esteja funcionando (porque há um limite de requisições). Você devera criar uma nova, [neste link](https://console.developers.google.com/google).  
 Lá você tera que gerar uma key para as seguintes APIs.  
 - Directions API  
 - Geocoding API  
@@ -125,12 +124,18 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - **Dia 7**
 	- Iniciei a parte de localização do usuario.  
 	- Tentei resolver problemas com permissão do usuario para acessar o GPS. 
-	- Finalizei o
+	- Finalizei os requisitos minimos do aplicativo 
 - **Dia 8**
 	- Resolvi problemas do GPS e permissão do usuario
 	- Inicei o mapa 
 	- Modifiquei a status bar
-
+- **Dia 9**  
+	- Adicionei o mapa com a localização da consulta e do Usuario
+	- Criei a API no google maps 
+- **Dia 10**  
+	- Fiz a rota da localização do usuario até a da clinica Utilizando a API do google  
+	- Fiz o feedback caso a API não esteja funcionando ou o local da consulta não exista  
+	- Não adicionei a opção de redirecionar ao google maps p
 
 
 ## Bibliografia  
@@ -143,5 +148,4 @@ Eu ja tinha o layout pronto do mobile que foi feito na criação do site (então
 - [Activity Indicator](https://facebook.github.io/react-native/docs/activityindicator)  
 - [Logout Button](https://www.youtube.com/watch?v=Aj5QN7q3xdI)  
 - [Permissão e localização do usuario](https://facebook.github.io/react-native/docs/geolocation.html)
-https://medium.com/@princessjanf/react-native-maps-with-direction-from-current-location-ab1a371732c2
-https://medium.com/nerdzao/utilizando-rotas-com-a-google-maps-api-no-react-native-69a05a434ab5
+- [Utilizando rotas com google maps API](https://medium.com/nerdzao/utilizando-rotas-com-a-google-maps-api-no-react-native-69a05a434ab5)  
