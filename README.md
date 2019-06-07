@@ -27,7 +27,7 @@ Antes de iniciar o projeto você deve fazer tudo que está nos links acima. Ent�
 - Você vai precisar ir no arquivo [APIService.js](https://github.com/Chingling152/ReactNative-SpMedicalGroup/blob/master/src/services/apiServices.js) e mudar a variavel **baseURL** para o ip da sua API.  
 Exemplo :
 ```javascript
-const baseURL = "http://{coloque seu ip aqui}:5000/api/v1/"//mude para o seu ip aqui
+const baseURL = "http://{coloque seu ip aqui}/api/v1/"//mude para o seu ip aqui
 ```
 - Você tambem devera ir para a API e setar o mesmo ip para ela no arquivo [Properties/launchSettings](https://github.com/Chingling152/WebApi-SPMedGroup/blob/master/Senai.WebApi.SpMedGroup/Properties/launchSettings.json)
 - O proximo comando sera : **react-native run-android**  

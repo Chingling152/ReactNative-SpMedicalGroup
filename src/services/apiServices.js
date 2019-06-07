@@ -1,5 +1,5 @@
 export const ApiRequest = (endpoint) =>{
-    const baseURL = "http://192.168.56.1:5000/api/v1/"//mude para o seu ip aqui
+    const baseURL = "https://spmedicalgroup.azurewebsites.net/api/v1/"//mude para o seu ip aqui
     return {
         Listar(){
             return fetch(baseURL + endpoint,
